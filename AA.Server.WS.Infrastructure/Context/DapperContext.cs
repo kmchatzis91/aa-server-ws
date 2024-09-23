@@ -20,7 +20,7 @@ namespace AA.Server.WS.Infrastructure.Context
         public DapperContext(IConfiguration configuration)
         {
             _configuration = configuration;
-            _connectionString = _configuration.GetConnectionString("MssqlDbConnectionString");
+            _connectionString = _configuration.GetConnectionString("DbConnectionString");
         }
         #endregion
 
