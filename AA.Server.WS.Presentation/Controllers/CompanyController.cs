@@ -1,10 +1,12 @@
 ﻿using AA.Server.WS.Application.Contracts;
 using AA.Server.WS.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AA.Server.WS.Presentation.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CompanyController : ControllerBase
@@ -32,22 +34,22 @@ namespace AA.Server.WS.Presentation.Controllers
         [Route("companies")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<List<Company>> GetAllCompanies()
+        public async Task<IActionResult> GetAllCompanies()
         {
             _logger.LogInformation($"{nameof(GetAllCompanies)}");
             var companies = await _unitOfWork.CompanyRepository.Get();
-            return companies;
+            return Ok(companies);
         }
 
         [HttpGet]
         [Route("companies/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<Company> GetCompanyById([FromRoute] string id)
+        public async Task<IActionResult> GetCompanyById([FromRoute] string id)
         {
             _logger.LogInformation($"{nameof(GetCompanyById)} id: {id}");
             var company = await _unitOfWork.CompanyRepository.GetById(new Guid(id));
-            return company;
+            return Ok(company);
         }
         #endregion
     }

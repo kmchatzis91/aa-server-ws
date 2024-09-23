@@ -2,6 +2,7 @@
 using AA.Server.WS.Application.Contracts;
 using AA.Server.WS.Infrastructure.Context;
 using AA.Server.WS.Infrastructure.Repositories;
+using AA.Server.WS.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -90,6 +91,8 @@ namespace AA.Server.WS.Presentation
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IDbUserRepository, DbUserRepository>();
             builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+
+            builder.Services.AddScoped<TokenService>();
             #endregion
 
             var app = builder.Build();
