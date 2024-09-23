@@ -1,0 +1,22 @@
+[
+  {
+    "id": "d8ebc20d-9839-4df9-983b-3a1718564ba9",
+    "firstName": "aa-admin-fn",
+    "lastName": "aa-admin-ln",
+    "email": "admin@aa.com",
+    "username": "aa-admin",
+    "password": "123qwe!@#",
+    "role": "Admin",
+    "isActive": true
+  },
+  {
+    "id": "0f24bcaf-3f69-4ade-a876-286f1861983c",
+    "firstName": "aa-user-fn",
+    "lastName": "aa-user-ln",
+    "email": "user@aa.com",
+    "username": "aa-user",
+    "password": "123qwe!@#",
+    "role": "User",
+    "isActive": true
+  }
+]

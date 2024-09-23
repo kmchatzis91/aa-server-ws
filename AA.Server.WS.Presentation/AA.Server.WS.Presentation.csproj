@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="test-data\companies.json" />
+    <Content Remove="test-data\users.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="test-data\companies.json" />
+    <None Include="test-data\users.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AA.Server.WS.Application\AA.Server.WS.Application.csproj" />
+    <ProjectReference Include="..\AA.Server.WS.Domain\AA.Server.WS.Domain.csproj" />
+    <ProjectReference Include="..\AA.Server.WS.Infrastructure\AA.Server.WS.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
