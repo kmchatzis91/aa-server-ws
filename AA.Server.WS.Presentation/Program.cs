@@ -137,6 +137,7 @@ namespace AA.Server.WS.Presentation
 
             // Services
             builder.Services.AddScoped<TokenService>();
+            builder.Services.AddScoped<PasswordService>();
             #endregion
 
             var app = builder.Build();

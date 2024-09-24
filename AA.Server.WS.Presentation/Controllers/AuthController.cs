@@ -18,6 +18,7 @@ namespace AA.Server.WS.Presentation.Controllers
         private readonly ILogger<AuthController> _logger;
         private readonly IUnitOfWork _unitOfWork;
         private readonly TokenService _tokenService;
+        private readonly PasswordService _passwordService;
         #endregion
 
         #region Constructor
@@ -25,12 +26,14 @@ namespace AA.Server.WS.Presentation.Controllers
             IConfiguration configuration,
             ILogger<AuthController> logger,
             IUnitOfWork unitOfWork,
-            TokenService tokenService)
+            TokenService tokenService,
+            PasswordService passwordService)
         {
             _configuration = configuration;
             _logger = logger;
             _unitOfWork = unitOfWork;
             _tokenService = tokenService;
+            _passwordService = passwordService;
         }
         #endregion
 
@@ -38,15 +41,20 @@ namespace AA.Server.WS.Presentation.Controllers
         [HttpPost]
         [Route("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             _logger.LogInformation($"{nameof(Login)}");
 
             var users = await _unitOfWork.DbUserRepository.Get();
 
-            var userAttemptingLogin = 
-                users.FirstOrDefault(u => u.Username == request.Username && u.Password == request.Password);
+            var hashedPassword = _passwordService.GetPasswordHash(request.Password);
+
+            var userAttemptingLogin = users.FirstOrDefault(u =>
+            u.Username == request.Username && u.Password == hashedPassword);
 
             if (userAttemptingLogin is null)
             {

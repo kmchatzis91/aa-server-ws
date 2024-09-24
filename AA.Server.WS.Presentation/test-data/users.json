@@ -5,7 +5,7 @@
     "lastName": "aa-admin-ln",
     "email": "admin@aa.com",
     "username": "aa-admin",
-    "password": "123qwe!@#",
+    "password": "113765b146867037b814a8ef1c2ec35d73bfb77c8d27a5f1a520099f5949cfaa",
     "roles": [
       "Admin"
     ],
@@ -17,7 +17,7 @@
     "lastName": "aa-user-ln",
     "email": "user@aa.com",
     "username": "aa-user",
-    "password": "123qwe!@#",
+    "password": "113765b146867037b814a8ef1c2ec35d73bfb77c8d27a5f1a520099f5949cfaa",
     "roles": [
       "User"
     ],
@@ -29,7 +29,7 @@
     "lastName": "aa-admin-user-ln",
     "email": "admin-user@aa.com",
     "username": "aa-admin-user",
-    "password": "123qwe!@#",
+    "password": "113765b146867037b814a8ef1c2ec35d73bfb77c8d27a5f1a520099f5949cfaa",
     "roles": [
       "Admin",
       "User"
