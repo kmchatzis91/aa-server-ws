@@ -5,8 +5,10 @@
     "lastName": "aa-admin-ln",
     "email": "admin@aa.com",
     "username": "aa-admin",
-    "password": "123qwe!@#",
-    "role": "Admin",
+    "password": "113765b146867037b814a8ef1c2ec35d73bfb77c8d27a5f1a520099f5949cfaa",
+    "roles": [
+      "Admin"
+    ],
     "isActive": true
   },
   {
@@ -15,8 +17,23 @@
     "lastName": "aa-user-ln",
     "email": "user@aa.com",
     "username": "aa-user",
-    "password": "123qwe!@#",
-    "role": "User",
+    "password": "113765b146867037b814a8ef1c2ec35d73bfb77c8d27a5f1a520099f5949cfaa",
+    "roles": [
+      "User"
+    ],
+    "isActive": true
+  },
+  {
+    "id": "ccc4cce4-36e9-4fce-b21a-5b88526901a7",
+    "firstName": "aa-admin-user-fn",
+    "lastName": "aa-admin-user-ln",
+    "email": "admin-user@aa.com",
+    "username": "aa-admin-user",
+    "password": "113765b146867037b814a8ef1c2ec35d73bfb77c8d27a5f1a520099f5949cfaa",
+    "roles": [
+      "Admin",
+      "User"
+    ],
     "isActive": true
   }
 ]
