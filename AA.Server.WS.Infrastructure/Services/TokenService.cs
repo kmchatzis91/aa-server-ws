@@ -1,5 +1,6 @@
 ﻿using AA.Server.WS.Domain.Entities;
 using AA.Server.WS.Domain.Models.Request;
+using AA.Server.WS.Domain.Models.Server;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -50,10 +51,15 @@ namespace AA.Server.WS.Infrastructure.Services
                     new Claim("userId", dbUser.Id.ToString()),
                     new Claim("firstName", dbUser.FirstName),
                     new Claim("lastName", dbUser.LastName),
-                    new Claim("role", dbUser.Role),
                     new Claim(JwtRegisteredClaimNames.Email, dbUser.Email),
                     new Claim(JwtRegisteredClaimNames.Sub, dbUser.Email),
                 };
+
+                foreach (var role in dbUser.Roles)
+                {
+                    var roleClaim = new Claim(ClaimTypes.Role, role);
+                    claims.Add(roleClaim);
+                }
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:Key"]));
                 var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

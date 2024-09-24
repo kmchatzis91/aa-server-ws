@@ -44,7 +44,9 @@ namespace AA.Server.WS.Presentation.Controllers
             _logger.LogInformation($"{nameof(Login)}");
 
             var users = await _unitOfWork.DbUserRepository.Get();
-            var userAttemptingLogin = users.FirstOrDefault(u => u.Username == request.Username && u.Password == request.Password);
+
+            var userAttemptingLogin = 
+                users.FirstOrDefault(u => u.Username == request.Username && u.Password == request.Password);
 
             if (userAttemptingLogin is null)
             {
@@ -58,7 +60,7 @@ namespace AA.Server.WS.Presentation.Controllers
                 LastName = userAttemptingLogin.LastName,
                 Email = userAttemptingLogin.Email,
                 Username = userAttemptingLogin.Username,
-                Role = userAttemptingLogin.Role,
+                Roles = userAttemptingLogin.Roles,
                 IsActive = userAttemptingLogin.IsActive
             };
 

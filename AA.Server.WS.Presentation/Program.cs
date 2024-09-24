@@ -1,10 +1,12 @@
 
 using AA.Server.WS.Application.Contracts;
+using AA.Server.WS.Domain.Models.Server;
 using AA.Server.WS.Infrastructure.Context;
 using AA.Server.WS.Infrastructure.Repositories;
 using AA.Server.WS.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 
 namespace AA.Server.WS.Presentation
@@ -26,10 +28,10 @@ namespace AA.Server.WS.Presentation
             #endregion
 
             #region Swagger settings
-            builder.Services.AddSwaggerGen(config =>
+            builder.Services.AddSwaggerGen(options =>
             {
                 // Swagger API Info
-                config.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
                 {
                     Title = "AA.Server.WS",
                     Version = "v1",
@@ -48,7 +50,7 @@ namespace AA.Server.WS.Presentation
                 });
 
                 // Define the Bearer token scheme for JWT
-                config.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
                 {
                     Description = "JWT Authorization header using the Bearer scheme. " +
                     "Enter 'Bearer' [space] and then your token in the text input below. " +
@@ -60,7 +62,7 @@ namespace AA.Server.WS.Presentation
                 });
 
                 // Add the security requirement for all endpoints
-                config.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement()
+                options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement()
                 {
                     {
                         new Microsoft.OpenApi.Models.OpenApiSecurityScheme
@@ -113,17 +115,27 @@ namespace AA.Server.WS.Presentation
                     ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
                     ValidAudience = builder.Configuration["JwtSettings:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]))
+                        Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"])),
+                    RoleClaimType = ClaimTypes.Role
                 };
+            });
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Policy.Admin, policy => policy.RequireRole(Role.Admin));
+                options.AddPolicy(Policy.User, policy => policy.RequireRole(Role.User));
+                options.AddPolicy(Policy.AdminOrUser, policy => policy.RequireRole(Role.Admin, Role.User));
             });
             #endregion
 
             #region Added Services
+            // Context & Repositories
             builder.Services.AddScoped<DapperContext>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IDbUserRepository, DbUserRepository>();
             builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 
+            // Services
             builder.Services.AddScoped<TokenService>();
             #endregion
 

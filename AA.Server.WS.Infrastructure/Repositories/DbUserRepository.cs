@@ -44,6 +44,7 @@ namespace AA.Server.WS.Infrastructure.Repositories
                 var testUsersPath = "test-data/users.json";
                 var testUsers = File.ReadAllText(testUsersPath);
                 var users = JsonConvert.DeserializeObject<List<DbUser>>(testUsers);
+
                 return users;
             }
             catch (Exception ex)
@@ -62,6 +63,7 @@ namespace AA.Server.WS.Infrastructure.Repositories
                 var testUsersPath = "test-data/users.json";
                 var testUsers = File.ReadAllText(testUsersPath);
                 var users = JsonConvert.DeserializeObject<List<DbUserResponse>>(testUsers);
+
                 return users;
             }
             catch (Exception ex)
@@ -81,6 +83,7 @@ namespace AA.Server.WS.Infrastructure.Repositories
                 var testUsers = File.ReadAllText(testUsersPath);
                 var users = JsonConvert.DeserializeObject<List<DbUserResponse>>(testUsers);
                 var user = users.FirstOrDefault(x => x.Username == username);
+
                 return user;
             }
             catch (Exception ex)

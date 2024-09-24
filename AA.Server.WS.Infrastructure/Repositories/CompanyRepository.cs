@@ -57,6 +57,7 @@ namespace AA.Server.WS.Infrastructure.Repositories
                 var testCompaniesPath = "test-data/companies.json";
                 var testCompanies = File.ReadAllText(testCompaniesPath);
                 var companies = JsonConvert.DeserializeObject<List<Company>>(testCompanies);
+
                 return companies;
             }
             catch (Exception ex)
@@ -90,6 +91,7 @@ namespace AA.Server.WS.Infrastructure.Repositories
                 var testCompanies = File.ReadAllText(testCompaniesPath);
                 var companies = JsonConvert.DeserializeObject<List<Company>>(testCompanies);
                 var company = companies.FirstOrDefault(c => c.Id == id);
+
                 return company;
             }
             catch (Exception ex)

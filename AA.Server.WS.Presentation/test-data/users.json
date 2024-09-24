@@ -6,7 +6,9 @@
     "email": "admin@aa.com",
     "username": "aa-admin",
     "password": "123qwe!@#",
-    "role": "Admin",
+    "roles": [
+      "Admin"
+    ],
     "isActive": true
   },
   {
@@ -16,7 +18,22 @@
     "email": "user@aa.com",
     "username": "aa-user",
     "password": "123qwe!@#",
-    "role": "User",
+    "roles": [
+      "User"
+    ],
+    "isActive": true
+  },
+  {
+    "id": "ccc4cce4-36e9-4fce-b21a-5b88526901a7",
+    "firstName": "aa-admin-user-fn",
+    "lastName": "aa-admin-user-ln",
+    "email": "admin-user@aa.com",
+    "username": "aa-admin-user",
+    "password": "123qwe!@#",
+    "roles": [
+      "Admin",
+      "User"
+    ],
     "isActive": true
   }
 ]
