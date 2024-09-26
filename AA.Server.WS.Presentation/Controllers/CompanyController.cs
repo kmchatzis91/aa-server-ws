@@ -52,6 +52,11 @@ namespace AA.Server.WS.Presentation.Controllers
 
             var companies = await _unitOfWork.CompanyRepository.Get();
 
+            if (companies == null)
+            {
+                return NotFound();
+            }
+
             return Ok(companies);
         }
 
@@ -75,6 +80,11 @@ namespace AA.Server.WS.Presentation.Controllers
             }
 
             var company = await _unitOfWork.CompanyRepository.GetById(new Guid(id));
+
+            if (company == null)
+            {
+                return NotFound();
+            }
 
             return Ok(company);
         }

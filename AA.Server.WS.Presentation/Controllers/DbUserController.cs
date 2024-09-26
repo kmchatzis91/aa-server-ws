@@ -54,6 +54,11 @@ namespace AA.Server.WS.Presentation.Controllers
 
             var users = await _unitOfWork.DbUserRepository.Get();
 
+            if (users == null)
+            {
+                return NotFound();
+            }
+
             return Ok(users);
         }
 
@@ -78,6 +83,11 @@ namespace AA.Server.WS.Presentation.Controllers
 
             var users = await _unitOfWork.DbUserRepository.GetUsersView();
 
+            if (users == null)
+            {
+                return NotFound();
+            }
+
             return Ok(users);
         }
 
@@ -101,6 +111,11 @@ namespace AA.Server.WS.Presentation.Controllers
             }
 
             var user = await _unitOfWork.DbUserRepository.GetByUsername(username);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
 
             return Ok(user);
         }
