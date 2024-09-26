@@ -12,6 +12,5 @@ namespace AA.Server.WS.Application.Contracts
         IDbUserRepository DbUserRepository { get; }
         ICompanyRepository CompanyRepository { get; }
         #endregion
-
     }
 }
