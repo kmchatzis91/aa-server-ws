@@ -10,5 +10,6 @@ namespace AA.Server.WS.Domain.Entities
     {
         public Guid Id { get; set; }
         public string? Name { get; set; }
+        public int TotalEmployees { get; set; }
     }
 }
