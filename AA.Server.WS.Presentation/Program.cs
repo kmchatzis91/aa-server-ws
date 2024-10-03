@@ -133,10 +133,15 @@ namespace AA.Server.WS.Presentation
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IDbUserRepository, DbUserRepository>();
             builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+            builder.Services.AddScoped<ICatFactRepository, CatFactRepository>();
 
             // Services
             builder.Services.AddScoped<TokenService>();
             builder.Services.AddScoped<PasswordService>();
+            #endregion
+
+            #region HttpClient
+            builder.Services.AddHttpClient();
             #endregion
 
             var app = builder.Build();
