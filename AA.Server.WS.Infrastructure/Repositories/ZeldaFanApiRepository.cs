@@ -1,4 +1,5 @@
 ﻿using AA.Server.WS.Application.Contracts;
+using AA.Server.WS.Domain.Entities;
 using AA.Server.WS.Domain.Models.Response;
 using AA.Server.WS.Domain.Models.Server;
 using Microsoft.Extensions.Configuration;
@@ -42,23 +43,35 @@ namespace AA.Server.WS.Infrastructure.Repositories
 
                 var endpoint = "games?limit=1";
                 var httpClient = _httpClientFactory.CreateClient(HttpClientName.ZeldaFanApi.ToString());
+                var result = new ZeldaFanApiResponse();
 
                 var response = await httpClient.GetAsync(endpoint);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    return null;
+                    result.Values = null;
+                    result.Errors = new List<Error>();
+                    result.Errors.Add(new Error() { Code = ErrorCode.UnavailableEndpoint, Message = ErrorMessage.UnavailableEndpoint });
+                    return result;
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
-                var parsedContent = JsonConvert.DeserializeObject<ZeldaFanApiResponse>(content);
+                var parsedContent = JsonConvert.DeserializeObject<ZeldaFanApi>(content);
 
-                return parsedContent;
+                result.Values = parsedContent;
+                result.Errors = null;
+
+                return result;
             }
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(GetZeldaGameInfo)}, Message: {ex.Message}, StackTrace: {ex.StackTrace}");
-                return null;
+
+                var result = new ZeldaFanApiResponse();
+                result.Values = null;
+                result.Errors = new List<Error>();
+                result.Errors.Add(new Error() { Code = ErrorCode.Unexpected, Message = ErrorMessage.Unexpected });
+                return result;
             }
         }
 
@@ -66,27 +79,47 @@ namespace AA.Server.WS.Infrastructure.Repositories
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetManyZeldaGameInfo)}");
+                _logger.LogInformation($"{nameof(GetManyZeldaGameInfo)}, limit: {limit}");
 
                 var endpoint = $"games?limit={limit}";
-                var httpClient = _httpClientFactory.CreateClient(HttpClientName.ZeldaFanApi.ToString());
+                var result = new ZeldaFanApiResponse();
 
+                if (limit <= 0)
+                {
+                    result.Values = null;
+                    result.Errors = new List<Error>();
+                    result.Errors.Add(new Error() { Code = ErrorCode.WrongInput, Message = ErrorMessage.WrongInput });
+                    return result;
+                }
+
+                var httpClient = _httpClientFactory.CreateClient(HttpClientName.ZeldaFanApi.ToString());
                 var response = await httpClient.GetAsync(endpoint);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    return null;
+                    result.Values = null;
+                    result.Errors = new List<Error>();
+                    result.Errors.Add(new Error() { Code = ErrorCode.UnavailableEndpoint, Message = ErrorMessage.UnavailableEndpoint });
+                    return result;
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
-                var parsedContent = JsonConvert.DeserializeObject<ZeldaFanApiResponse>(content);
+                var parsedContent = JsonConvert.DeserializeObject<ZeldaFanApi>(content);
 
-                return parsedContent;
+                result.Values = parsedContent;
+                result.Errors = null;
+
+                return result;
             }
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(GetManyZeldaGameInfo)}, Message: {ex.Message}, StackTrace: {ex.StackTrace}");
-                return null;
+
+                var result = new ZeldaFanApiResponse();
+                result.Values = null;
+                result.Errors = new List<Error>();
+                result.Errors.Add(new Error() { Code = ErrorCode.Unexpected, Message = ErrorMessage.Unexpected });
+                return result;
             }
         }
         #endregion

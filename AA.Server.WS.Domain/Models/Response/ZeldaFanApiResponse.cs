@@ -1,4 +1,5 @@
 ﻿using AA.Server.WS.Domain.Entities;
+using AA.Server.WS.Domain.Models.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,7 @@ namespace AA.Server.WS.Domain.Models.Response
 {
     public class ZeldaFanApiResponse
     {
-        [JsonPropertyName("success")]
-        public bool Success { get; set; }
-
-        [JsonPropertyName("count")]
-        public int Count { get; set; }
-
-        [JsonPropertyName("data")]
-        public List<Game>? Data { get; set; }
+        public ZeldaFanApi? Values { get; set; }
+        public List<Error>? Errors { get; set; }
     }
 }

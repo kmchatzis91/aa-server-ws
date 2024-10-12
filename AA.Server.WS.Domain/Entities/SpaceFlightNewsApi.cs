@@ -1,14 +1,13 @@
-﻿using AA.Server.WS.Domain.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace AA.Server.WS.Domain.Models.Response
+namespace AA.Server.WS.Domain.Entities
 {
-    public class SpaceFlightNewsResponse
+    public class SpaceFlightNewsApi
     {
         [JsonPropertyName("count")]
         public int Count { get; set; }

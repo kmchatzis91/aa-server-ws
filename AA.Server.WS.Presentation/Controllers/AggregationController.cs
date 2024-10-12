@@ -1,5 +1,7 @@
 ﻿using AA.Server.WS.Application.Contracts;
 using AA.Server.WS.Domain.Entities;
+using AA.Server.WS.Domain.Models.Request;
+using AA.Server.WS.Domain.Models.Response;
 using AA.Server.WS.Domain.Models.Server;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -31,43 +33,79 @@ namespace AA.Server.WS.Presentation.Controllers
         #endregion
 
         #region Methods
-        //[Authorize(Policy = Policy.AdminOrUser)]
+        [Authorize(Policy = Policy.AdminOrUser)]
         [HttpGet]
-        [Route("test")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [Route("data")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AggregationResponse))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Test()
+        public async Task<IActionResult> GetAggregationData()
         {
-            _logger.LogInformation($"{nameof(GetAllAggregationExample)}");
+            _logger.LogInformation($"{nameof(GetAggregationData)}");
 
-            //var roles = User.FindAll(ClaimTypes.Role).Select(r => r.Value).ToList();
+            var roles = User.FindAll(ClaimTypes.Role).Select(r => r.Value).ToList();
 
-            //if (!roles.Contains(Role.Admin) && !roles.Contains(Role.User))
-            //{
-            //    return Unauthorized();
-            //}
+            if (!roles.Contains(Role.Admin) && !roles.Contains(Role.User))
+            {
+                return Unauthorized();
+            }
 
-            var testResponse1 = await _unitOfWork.DogApiRepository.GetDogFact(); // => OK!
-            var testResponse2 = await _unitOfWork.DogApiRepository.GetManyDogFacts(5); // => OK!
+            var dogApiResponse = await _unitOfWork.DogApiRepository.GetDogFact();
+            var zeldaFanApi = await _unitOfWork.ZeldaFanApiRepository.GetZeldaGameInfo();
+            var jokeApiResponse = await _unitOfWork.JokeApiRepository.GetJoke();
+            var spaceFlightNewsApiResponse = await _unitOfWork.SpaceFlightNewsApiRepository.GetSpaceNew();
 
-            var testResponse3 = await _unitOfWork.ZeldaFanApiRepository.GetZeldaGameInfo(); // => OK!
-            var testResponse4 = await _unitOfWork.ZeldaFanApiRepository.GetManyZeldaGameInfo(5); // => OK!
+            var result = new AggregationResponse() 
+            {
+                DogApi = dogApiResponse,
+                ZeldaFanApi = zeldaFanApi,
+                JokeApi = jokeApiResponse,
+                SpaceFlightNewsApi = spaceFlightNewsApiResponse
+            };
 
-            var testResponse5 = await _unitOfWork.JokeApiRepository.GetJoke(); // => OK!
-            var testResponse6 = await _unitOfWork.JokeApiRepository.GetJokeByCategoryName("pun"); // => OK!
+            return Ok(result);
+        }
 
-            var testResponse7 = await _unitOfWork.SpaceFlightNewsApiRepository.GetNew(); // => OK!
-            var testResponse8 = await _unitOfWork.SpaceFlightNewsApiRepository.GetManyNews(1000); // => OK!
+        [Authorize(Policy = Policy.AdminOrUser)]
+        [HttpPost]
+        [Route("filtered/data")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AggregationResponse))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetAggregationFilteredData([FromBody] AggregationRequest request)
+        {
+            _logger.LogInformation($"{nameof(GetAggregationFilteredData)}");
 
-            return Ok(testResponse8);
+            var roles = User.FindAll(ClaimTypes.Role).Select(r => r.Value).ToList();
+
+            if (!roles.Contains(Role.Admin) && !roles.Contains(Role.User))
+            {
+                return Unauthorized();
+            }
+
+            var dogApiResponse = await _unitOfWork.DogApiRepository.GetManyDogFacts(request.DogFactLimit);
+            var zeldaFanApi = await _unitOfWork.ZeldaFanApiRepository.GetManyZeldaGameInfo(request.ZeldaGameLimit);
+            var jokeApiResponse = await _unitOfWork.JokeApiRepository.GetJokeByCategoryName(request.JokeCategoryName);
+            var spaceFlightNewsApiResponse = await _unitOfWork.SpaceFlightNewsApiRepository.GetManySpaceNews(request.SpaceNewLimit);
+
+            var result = new AggregationResponse() 
+            {
+                DogApi = dogApiResponse,
+                ZeldaFanApi = zeldaFanApi,
+                JokeApi = jokeApiResponse,
+                SpaceFlightNewsApi = spaceFlightNewsApiResponse
+            };
+
+            return Ok(result);
         }
 
         [Authorize(Policy = Policy.AdminOrUser)]
         [HttpGet]
-        [Route("company-cat-fact")]
+        [Route("playground")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CompanyCatFact))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]

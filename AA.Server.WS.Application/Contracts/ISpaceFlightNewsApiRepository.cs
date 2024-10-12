@@ -10,8 +10,8 @@ namespace AA.Server.WS.Application.Contracts
     public interface ISpaceFlightNewsApiRepository
     {
         #region Methods
-        Task<SpaceFlightNewsResponse> GetNew();
-        Task<SpaceFlightNewsResponse> GetManyNews(int limit);
+        Task<SpaceFlightNewsApiResponse> GetSpaceNew();
+        Task<SpaceFlightNewsApiResponse> GetManySpaceNews(int limit);
         #endregion
     }
 }

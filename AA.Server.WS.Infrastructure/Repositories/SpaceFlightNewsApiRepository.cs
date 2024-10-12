@@ -1,4 +1,5 @@
 ﻿using AA.Server.WS.Application.Contracts;
+using AA.Server.WS.Domain.Entities;
 using AA.Server.WS.Domain.Models.Response;
 using AA.Server.WS.Domain.Models.Server;
 using Microsoft.Extensions.Configuration;
@@ -34,65 +35,91 @@ namespace AA.Server.WS.Infrastructure.Repositories
         #endregion
 
         #region Methods
-        public async Task<SpaceFlightNewsResponse> GetNew()
+        public async Task<SpaceFlightNewsApiResponse> GetSpaceNew()
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetNew)}");
+                _logger.LogInformation($"{nameof(GetSpaceNew)}");
 
                 var endpoint = "articles/?limit=1&format=json";
                 var httpClient = _httpClientFactory.CreateClient(HttpClientName.SpaceFlightNewsApi.ToString());
+                var result = new SpaceFlightNewsApiResponse();
 
                 var response = await httpClient.GetAsync(endpoint);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    return null;
+                    result.Values = null;
+                    result.Errors = new List<Error>();
+                    result.Errors.Add(new Error() { Code = ErrorCode.UnavailableEndpoint, Message = ErrorMessage.UnavailableEndpoint });
+                    return result;
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
-                var parsedContent = JsonConvert.DeserializeObject<SpaceFlightNewsResponse>(content);
+                var parsedContent = JsonConvert.DeserializeObject<SpaceFlightNewsApi>(content);
 
-                return parsedContent;
+                result.Values = parsedContent;
+                result.Errors = null;
+
+                return result;
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(GetNew)}, Message: {ex.Message}, StackTrace: {ex.StackTrace}");
-                return null;
+                _logger.LogError($"{nameof(GetSpaceNew)}, Message: {ex.Message}, StackTrace: {ex.StackTrace}");
+
+                var result = new SpaceFlightNewsApiResponse();
+                result.Values = null;
+                result.Errors = new List<Error>();
+                result.Errors.Add(new Error() { Code = ErrorCode.Unexpected, Message = ErrorMessage.Unexpected });
+                return result;
             }
         }
 
-        public async Task<SpaceFlightNewsResponse> GetManyNews(int limit)
+        public async Task<SpaceFlightNewsApiResponse> GetManySpaceNews(int limit)
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetManyNews)}, limit: {limit}");
+                _logger.LogInformation($"{nameof(GetManySpaceNews)}, limit: {limit}");
 
                 var endpoint = $"articles/?limit={limit}&format=json";
+                var result = new SpaceFlightNewsApiResponse();
 
-                if (limit == 0)
+                if (limit <= 0)
                 {
-                    return null;
+                    result.Values = null;
+                    result.Errors = new List<Error>();
+                    result.Errors.Add(new Error() { Code = ErrorCode.WrongInput, Message = ErrorMessage.WrongInput });
+                    return result;
                 }
 
                 var httpClient = _httpClientFactory.CreateClient(HttpClientName.SpaceFlightNewsApi.ToString());
-
                 var response = await httpClient.GetAsync(endpoint);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    return null;
+                    result.Values = null;
+                    result.Errors = new List<Error>();
+                    result.Errors.Add(new Error() { Code = ErrorCode.UnavailableEndpoint, Message = ErrorMessage.UnavailableEndpoint });
+                    return result;
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
-                var parsedContent = JsonConvert.DeserializeObject<SpaceFlightNewsResponse>(content);
+                var parsedContent = JsonConvert.DeserializeObject<SpaceFlightNewsApi>(content);
 
-                return parsedContent;
+                result.Values = parsedContent;
+                result.Errors = null;
+
+                return result;
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{nameof(GetManyNews)}, Message: {ex.Message}, StackTrace: {ex.StackTrace}");
-                return null;
+                _logger.LogError($"{nameof(GetManySpaceNews)}, Message: {ex.Message}, StackTrace: {ex.StackTrace}");
+
+                var result = new SpaceFlightNewsApiResponse();
+                result.Values = null;
+                result.Errors = new List<Error>();
+                result.Errors.Add(new Error() { Code = ErrorCode.Unexpected, Message = ErrorMessage.Unexpected });
+                return result;
             }
         }
         #endregion

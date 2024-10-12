@@ -1,4 +1,5 @@
 ﻿using AA.Server.WS.Application.Contracts;
+using AA.Server.WS.Domain.Entities;
 using AA.Server.WS.Domain.Models.Response;
 using AA.Server.WS.Domain.Models.Server;
 using Microsoft.Extensions.Configuration;
@@ -42,23 +43,35 @@ namespace AA.Server.WS.Infrastructure.Repositories
 
                 var endpoint = "any?type=twopart";
                 var httpClient = _httpClientFactory.CreateClient(HttpClientName.JokeApi.ToString());
+                var result = new JokeApiResponse();
 
                 var response = await httpClient.GetAsync(endpoint);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    return null;
+                    result.Values = null;
+                    result.Errors = new List<Error>();
+                    result.Errors.Add(new Error() { Code = ErrorCode.UnavailableEndpoint, Message = ErrorMessage.UnavailableEndpoint });
+                    return result;
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
-                var parsedContent = JsonConvert.DeserializeObject<JokeApiResponse>(content);
+                var parsedContent = JsonConvert.DeserializeObject<JokeApi>(content);
 
-                return parsedContent;
+                result.Values = parsedContent;
+                result.Errors = null;
+
+                return result;
             }
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(GetJoke)}, Message: {ex.Message}, StackTrace: {ex.StackTrace}");
-                return null;
+
+                var result = new JokeApiResponse();
+                result.Values = null;
+                result.Errors = new List<Error>();
+                result.Errors.Add(new Error() { Code = ErrorCode.Unexpected, Message = ErrorMessage.Unexpected });
+                return result;
             }
         }
 
@@ -66,38 +79,47 @@ namespace AA.Server.WS.Infrastructure.Repositories
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetJokeByCategoryName)}");
+                _logger.LogInformation($"{nameof(GetJokeByCategoryName)}, category: {category}");
 
                 var endpoint = $"{category}?type=twopart";
+                var result = new JokeApiResponse();
 
-                if (string.IsNullOrWhiteSpace(category))
+                if (string.IsNullOrWhiteSpace(category) || !JokeCategories.Values.Contains(category.ToLower()))
                 {
-                    return null;
-                }
-
-                if (!JokeCategories.Values.Contains(category.ToLower()))
-                {
-                    return null;
+                    result.Values = null;
+                    result.Errors = new List<Error>();
+                    result.Errors.Add(new Error() { Code = ErrorCode.WrongInput, Message = ErrorMessage.WrongInput });
+                    return result;
                 }
 
                 var httpClient = _httpClientFactory.CreateClient(HttpClientName.JokeApi.ToString());
-
                 var response = await httpClient.GetAsync(endpoint);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    return null;
+                    result.Values = null;
+                    result.Errors = new List<Error>();
+                    result.Errors.Add(new Error() { Code = ErrorCode.UnavailableEndpoint, Message = ErrorMessage.UnavailableEndpoint });
+                    return result;
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
-                var parsedContent = JsonConvert.DeserializeObject<JokeApiResponse>(content);
+                var parsedContent = JsonConvert.DeserializeObject<JokeApi>(content);
 
-                return parsedContent;
+                result.Values = parsedContent;
+                result.Errors = null;
+
+                return result;
             }
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(GetJokeByCategoryName)}, Message: {ex.Message}, StackTrace: {ex.StackTrace}");
-                return null;
+
+                var result = new JokeApiResponse();
+                result.Values = null;
+                result.Errors = new List<Error>();
+                result.Errors.Add(new Error() { Code = ErrorCode.Unexpected, Message = ErrorMessage.Unexpected });
+                return result;
             }
         }
         #endregion

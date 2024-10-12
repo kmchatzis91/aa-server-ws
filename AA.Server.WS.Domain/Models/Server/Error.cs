@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace AA.Server.WS.Domain.Models.Server
 {
-    internal class Message
+    public class Error
     {
+        public ErrorCode Code { get; set; }
+        public string? Message { get; set; }
     }
 }

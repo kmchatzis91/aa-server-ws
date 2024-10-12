@@ -44,23 +44,35 @@ namespace AA.Server.WS.Infrastructure.Repositories
 
                 var endpoint = "facts?limit=1";
                 var httpClient = _httpClientFactory.CreateClient(HttpClientName.DogApi.ToString());
+                var result = new DogApiResponse();
 
                 var response = await httpClient.GetAsync(endpoint);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    return null;
+                    result.Values = null;
+                    result.Errors = new List<Error>();
+                    result.Errors.Add(new Error() { Code = ErrorCode.UnavailableEndpoint, Message = ErrorMessage.UnavailableEndpoint });
+                    return result;
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
-                var parsedContent = JsonConvert.DeserializeObject<DogApiResponse>(content);
+                var parsedContent = JsonConvert.DeserializeObject<DogApi>(content);
 
-                return parsedContent;
+                result.Values = parsedContent;
+                result.Errors = null;
+
+                return result;
             }
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(GetDogFact)}, Message: {ex.Message}, StackTrace: {ex.StackTrace}");
-                return null;
+
+                var result = new DogApiResponse();
+                result.Values = null;
+                result.Errors = new List<Error>();
+                result.Errors.Add(new Error() { Code = ErrorCode.Unexpected, Message = ErrorMessage.Unexpected });
+                return result;
             }
         }
 
@@ -68,27 +80,47 @@ namespace AA.Server.WS.Infrastructure.Repositories
         {
             try
             {
-                _logger.LogInformation($"{nameof(GetManyDogFacts)}");
+                _logger.LogInformation($"{nameof(GetManyDogFacts)}, limit: {limit}");
 
                 var endpoint = $"facts?limit={limit}";
-                var httpClient = _httpClientFactory.CreateClient(HttpClientName.DogApi.ToString());
+                var result = new DogApiResponse();
 
+                if (limit <= 0) 
+                {
+                    result.Values = null;
+                    result.Errors = new List<Error>();
+                    result.Errors.Add(new Error() { Code = ErrorCode.WrongInput, Message = ErrorMessage.WrongInput });
+                    return result;
+                }
+
+                var httpClient = _httpClientFactory.CreateClient(HttpClientName.DogApi.ToString());
                 var response = await httpClient.GetAsync(endpoint);
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    return null;
+                    result.Values = null;
+                    result.Errors = new List<Error>();
+                    result.Errors.Add(new Error() { Code = ErrorCode.UnavailableEndpoint, Message = ErrorMessage.UnavailableEndpoint });
+                    return result;
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
-                var parsedContent = JsonConvert.DeserializeObject<DogApiResponse>(content);
+                var parsedContent = JsonConvert.DeserializeObject<DogApi>(content);
 
-                return parsedContent;
+                result.Values = parsedContent;
+                result.Errors = null;
+
+                return result;
             }
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(GetManyDogFacts)}, Message: {ex.Message}, StackTrace: {ex.StackTrace}");
-                return null;
+
+                var result = new DogApiResponse();
+                result.Values = null;
+                result.Errors = new List<Error>();
+                result.Errors.Add(new Error() { Code = ErrorCode.Unexpected, Message = ErrorMessage.Unexpected });
+                return result;
             }
         }
         #endregion
