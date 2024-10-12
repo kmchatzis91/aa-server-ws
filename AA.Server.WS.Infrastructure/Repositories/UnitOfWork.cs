@@ -13,7 +13,8 @@ namespace AA.Server.WS.Infrastructure.Repositories
         public IDbUserRepository DbUserRepository { get; set; }
         public ICompanyRepository CompanyRepository { get; set; }
         public ICatFactRepository CatFactRepository { get; set; }
-        public IDogApiRepository DogFactRepository { get; set; }
+        public IDogApiRepository DogApiRepository { get; set; }
+        public IZeldaFanApiRepository ZeldaFanApiRepository { get; set; }
         #endregion
 
         #region Constructor
@@ -21,12 +22,14 @@ namespace AA.Server.WS.Infrastructure.Repositories
             IDbUserRepository dbUserRepository,
             ICompanyRepository companyRepository,
             ICatFactRepository catFactRepository,
-            IDogApiRepository dogFactRepository)
+            IDogApiRepository dogApiRepository,
+            IZeldaFanApiRepository zeldaFanApiRepository)
         {
             DbUserRepository = dbUserRepository;
             CompanyRepository = companyRepository;
             CatFactRepository = catFactRepository;
-            DogFactRepository = dogFactRepository;
+            DogApiRepository = dogApiRepository;
+            ZeldaFanApiRepository = zeldaFanApiRepository;
         }
         #endregion
     }

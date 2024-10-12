@@ -135,7 +135,8 @@ namespace AA.Server.WS.Presentation
             builder.Services.AddScoped<IDbUserRepository, DbUserRepository>();
             builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
             builder.Services.AddScoped<ICatFactRepository, CatFactRepository>();
-            builder.Services.AddScoped<IDogApiRepository, DogFactRepository>();
+            builder.Services.AddScoped<IDogApiRepository, DogApiRepository>();
+            builder.Services.AddScoped<IZeldaFanApiRepository, ZeldaFanApiRepository>();
 
             // Services
             builder.Services.AddScoped<TokenService>();
@@ -143,13 +144,19 @@ namespace AA.Server.WS.Presentation
             #endregion
 
             #region HttpClient
-            // General
+            // Generic client
             builder.Services.AddHttpClient();
 
             // DogApi client
             builder.Services.AddHttpClient(HttpClientName.DogApi.ToString(), client =>
             {
                 client.BaseAddress = new Uri(builder.Configuration["HttpClientBaseUrl:DogApi"]);
+            });
+
+            // ZeldaFanApi client
+            builder.Services.AddHttpClient(HttpClientName.ZeldaFanApi.ToString(), client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration["HttpClientBaseUrl:ZeldaFanApi"]);
             });
             #endregion
 

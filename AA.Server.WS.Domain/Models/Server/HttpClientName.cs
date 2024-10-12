@@ -10,7 +10,8 @@ namespace AA.Server.WS.Domain.Models.Server
     {
         #region Fields & Properties
         Unknown,
-        DogApi
+        DogApi,
+        ZeldaFanApi
         #endregion
     }
 }

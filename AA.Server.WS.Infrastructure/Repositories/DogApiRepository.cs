@@ -15,18 +15,18 @@ using System.Threading.Tasks;
 
 namespace AA.Server.WS.Infrastructure.Repositories
 {
-    public class DogFactRepository : IDogApiRepository
+    public class DogApiRepository : IDogApiRepository
     {
         #region Fields & Properties
         private readonly IConfiguration _configuration;
-        private readonly ILogger<DogFactRepository> _logger;
+        private readonly ILogger<DogApiRepository> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
         #endregion
 
         #region Constructor
-        public DogFactRepository(
+        public DogApiRepository(
             IConfiguration configuration,
-            ILogger<DogFactRepository> logger,
+            ILogger<DogApiRepository> logger,
             IHttpClientFactory httpClientFactory)
         {
             _configuration = configuration;
@@ -88,41 +88,6 @@ namespace AA.Server.WS.Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(GetManyDogFacts)}, Message: {ex.Message}, StackTrace: {ex.StackTrace}");
-                return null;
-            }
-        }
-
-        public async Task<CatFact> GetCatFact()
-        {
-            try
-            {
-                //_logger.LogInformation($"{nameof(GetCatFact)}");
-
-                //var endpoint = "https://catfact.ninja/fact";
-                //var response = await _httpClient.GetAsync(endpoint);
-
-                //if (response.StatusCode != HttpStatusCode.OK)
-                //{
-                //    return null;
-                //}
-
-                //var content = await response.Content.ReadAsStringAsync();
-                //var parsedContent = JsonConvert.DeserializeObject<CatFactResponse>(content);
-
-                //var catFact = new CatFact()
-                //{
-                //    Fact = parsedContent.Fact,
-                //    Length = parsedContent.Length,
-                //};
-
-                //return catFact;
-
-                return null;
-
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"{nameof(GetCatFact)}, Message: {ex.Message}, StackTrace: {ex.StackTrace}");
                 return null;
             }
         }

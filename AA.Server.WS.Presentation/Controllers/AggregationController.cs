@@ -50,8 +50,14 @@ namespace AA.Server.WS.Presentation.Controllers
             //    return Unauthorized();
             //}
 
-            //var testResponse = await _unitOfWork.DogFactRepository.GetDogFact(); // => OK!
-            var testResponse = await _unitOfWork.DogFactRepository.GetManyDogFacts(5);
+            //var testResponse = await _unitOfWork.DogApiRepository.GetDogFact(); // => OK!
+            //var testResponse = await _unitOfWork.DogApiRepository.GetManyDogFacts(5); // => OK!
+
+            //var testResponse = await _unitOfWork.ZeldaFanApiRepository.GetZeldaGameInfo(); // => OK!
+            // var testResponse = await _unitOfWork.ZeldaFanApiRepository.GetManyZeldaGameInfo(5); // => OK!
+
+            var testResponse = await _unitOfWork.ZeldaFanApiRepository.GetZeldaGameInfo();
+            // var testResponse = await _unitOfWork.ZeldaFanApiRepository.GetManyZeldaGameInfo(5);
 
 
 
