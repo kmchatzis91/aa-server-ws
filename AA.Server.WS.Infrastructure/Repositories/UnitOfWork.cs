@@ -16,6 +16,7 @@ namespace AA.Server.WS.Infrastructure.Repositories
         public IDogApiRepository DogApiRepository { get; set; }
         public IZeldaFanApiRepository ZeldaFanApiRepository { get; set; }
         public IJokeApiRepository JokeApiRepository { get; set; }
+        public ISpaceFlightNewsApiRepository SpaceFlightNewsApiRepository { get; set; }
         #endregion
 
         #region Constructor
@@ -25,7 +26,8 @@ namespace AA.Server.WS.Infrastructure.Repositories
             ICatFactRepository catFactRepository,
             IDogApiRepository dogApiRepository,
             IZeldaFanApiRepository zeldaFanApiRepository,
-            IJokeApiRepository jokeApiRepository)
+            IJokeApiRepository jokeApiRepository,
+            ISpaceFlightNewsApiRepository spaceFlightNewsApiRepository)
         {
             DbUserRepository = dbUserRepository;
             CompanyRepository = companyRepository;
@@ -33,6 +35,7 @@ namespace AA.Server.WS.Infrastructure.Repositories
             DogApiRepository = dogApiRepository;
             ZeldaFanApiRepository = zeldaFanApiRepository;
             JokeApiRepository = jokeApiRepository;
+            SpaceFlightNewsApiRepository = spaceFlightNewsApiRepository;
         }
         #endregion
     }

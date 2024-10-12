@@ -138,6 +138,7 @@ namespace AA.Server.WS.Presentation
             builder.Services.AddScoped<IDogApiRepository, DogApiRepository>();
             builder.Services.AddScoped<IZeldaFanApiRepository, ZeldaFanApiRepository>();
             builder.Services.AddScoped<IJokeApiRepository, JokeApiRepository>();
+            builder.Services.AddScoped<ISpaceFlightNewsApiRepository, SpaceFlightNewsApiRepository>();
 
             // Services
             builder.Services.AddScoped<TokenService>();
@@ -164,6 +165,12 @@ namespace AA.Server.WS.Presentation
             builder.Services.AddHttpClient(HttpClientName.JokeApi.ToString(), client =>
             {
                 client.BaseAddress = new Uri(builder.Configuration["HttpClientBaseUrl:JokeApi"]);
+            });
+
+            // SpaceFlightNewsApi client
+            builder.Services.AddHttpClient(HttpClientName.SpaceFlightNewsApi.ToString(), client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration["HttpClientBaseUrl:SpaceFlightNewsApi"]);
             });
             #endregion
 

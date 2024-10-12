@@ -15,6 +15,7 @@ namespace AA.Server.WS.Application.Contracts
         IDogApiRepository DogApiRepository { get; }
         IZeldaFanApiRepository ZeldaFanApiRepository { get; }
         IJokeApiRepository JokeApiRepository { get; }
+        ISpaceFlightNewsApiRepository SpaceFlightNewsApiRepository { get; }
         #endregion
     }
 }

@@ -33,13 +33,13 @@ namespace AA.Server.WS.Presentation.Controllers
         #region Methods
         //[Authorize(Policy = Policy.AdminOrUser)]
         [HttpGet]
-        [Route("test/{category}")]
+        [Route("test")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Test([FromRoute] string category)
+        public async Task<IActionResult> Test()
         {
             _logger.LogInformation($"{nameof(GetAllAggregationExample)}");
 
@@ -50,18 +50,19 @@ namespace AA.Server.WS.Presentation.Controllers
             //    return Unauthorized();
             //}
 
-            //var testResponse = await _unitOfWork.DogApiRepository.GetDogFact(); // => OK!
-            //var testResponse = await _unitOfWork.DogApiRepository.GetManyDogFacts(5); // => OK!
+            var testResponse1 = await _unitOfWork.DogApiRepository.GetDogFact(); // => OK!
+            var testResponse2 = await _unitOfWork.DogApiRepository.GetManyDogFacts(5); // => OK!
 
-            //var testResponse = await _unitOfWork.ZeldaFanApiRepository.GetZeldaGameInfo(); // => OK!
-            // var testResponse = await _unitOfWork.ZeldaFanApiRepository.GetManyZeldaGameInfo(5); // => OK!
+            var testResponse3 = await _unitOfWork.ZeldaFanApiRepository.GetZeldaGameInfo(); // => OK!
+            var testResponse4 = await _unitOfWork.ZeldaFanApiRepository.GetManyZeldaGameInfo(5); // => OK!
 
-            //var testResponse = await _unitOfWork.JokeApiRepository.GetJoke(); // => OK!
-            var testResponse = await _unitOfWork.JokeApiRepository.GetJokeByCategoryName(category);
+            var testResponse5 = await _unitOfWork.JokeApiRepository.GetJoke(); // => OK!
+            var testResponse6 = await _unitOfWork.JokeApiRepository.GetJokeByCategoryName("pun"); // => OK!
 
+            var testResponse7 = await _unitOfWork.SpaceFlightNewsApiRepository.GetNew(); // => OK!
+            var testResponse8 = await _unitOfWork.SpaceFlightNewsApiRepository.GetManyNews(1000); // => OK!
 
-
-            return Ok(testResponse);
+            return Ok(testResponse8);
         }
 
         [Authorize(Policy = Policy.AdminOrUser)]

@@ -13,6 +13,7 @@ namespace AA.Server.WS.Domain.Models.Server
         DogApi,
         ZeldaFanApi,
         JokeApi,
+        SpaceFlightNewsApi
         #endregion
     }
 }
