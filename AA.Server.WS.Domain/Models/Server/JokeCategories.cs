@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace AA.Server.WS.Domain.Models.Server
 {
-    public enum HttpClientName
+    public class JokeCategories
     {
         #region Fields & Properties
-        Unknown,
-        DogApi,
-        ZeldaFanApi,
-        JokeApi,
+        public static readonly string[] Values = ["programming", "miscellaneous", "dark", "pun", "spooky", "christmas"];
         #endregion
     }
 }

@@ -17,6 +17,6 @@ namespace AA.Server.WS.Domain.Models.Response
         public int Count { get; set; }
 
         [JsonPropertyName("data")]
-        public List<GameData>? Data { get; set; }
+        public List<Game>? Data { get; set; }
     }
 }

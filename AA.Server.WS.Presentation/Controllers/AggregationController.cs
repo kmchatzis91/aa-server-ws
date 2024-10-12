@@ -33,13 +33,13 @@ namespace AA.Server.WS.Presentation.Controllers
         #region Methods
         //[Authorize(Policy = Policy.AdminOrUser)]
         [HttpGet]
-        [Route("test")]
+        [Route("test/{category}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Test()
+        public async Task<IActionResult> Test([FromRoute] string category)
         {
             _logger.LogInformation($"{nameof(GetAllAggregationExample)}");
 
@@ -56,8 +56,8 @@ namespace AA.Server.WS.Presentation.Controllers
             //var testResponse = await _unitOfWork.ZeldaFanApiRepository.GetZeldaGameInfo(); // => OK!
             // var testResponse = await _unitOfWork.ZeldaFanApiRepository.GetManyZeldaGameInfo(5); // => OK!
 
-            var testResponse = await _unitOfWork.ZeldaFanApiRepository.GetZeldaGameInfo();
-            // var testResponse = await _unitOfWork.ZeldaFanApiRepository.GetManyZeldaGameInfo(5);
+            //var testResponse = await _unitOfWork.JokeApiRepository.GetJoke(); // => OK!
+            var testResponse = await _unitOfWork.JokeApiRepository.GetJokeByCategoryName(category);
 
 
 

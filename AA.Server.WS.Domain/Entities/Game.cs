@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AA.Server.WS.Domain.Entities
 {
-    public class GameData
+    public class Game
     {
         [JsonPropertyName("name")]
         public string? Name { get; set; }

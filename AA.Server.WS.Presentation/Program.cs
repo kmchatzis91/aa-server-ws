@@ -137,6 +137,7 @@ namespace AA.Server.WS.Presentation
             builder.Services.AddScoped<ICatFactRepository, CatFactRepository>();
             builder.Services.AddScoped<IDogApiRepository, DogApiRepository>();
             builder.Services.AddScoped<IZeldaFanApiRepository, ZeldaFanApiRepository>();
+            builder.Services.AddScoped<IJokeApiRepository, JokeApiRepository>();
 
             // Services
             builder.Services.AddScoped<TokenService>();
@@ -157,6 +158,12 @@ namespace AA.Server.WS.Presentation
             builder.Services.AddHttpClient(HttpClientName.ZeldaFanApi.ToString(), client =>
             {
                 client.BaseAddress = new Uri(builder.Configuration["HttpClientBaseUrl:ZeldaFanApi"]);
+            });
+
+            // JokeApi client
+            builder.Services.AddHttpClient(HttpClientName.JokeApi.ToString(), client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration["HttpClientBaseUrl:JokeApi"]);
             });
             #endregion
 

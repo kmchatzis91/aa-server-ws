@@ -14,6 +14,7 @@ namespace AA.Server.WS.Application.Contracts
         ICatFactRepository CatFactRepository { get; }
         IDogApiRepository DogApiRepository { get; }
         IZeldaFanApiRepository ZeldaFanApiRepository { get; }
+        IJokeApiRepository JokeApiRepository { get; }
         #endregion
     }
 }
