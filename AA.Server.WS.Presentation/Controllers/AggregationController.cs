@@ -31,6 +31,33 @@ namespace AA.Server.WS.Presentation.Controllers
         #endregion
 
         #region Methods
+        //[Authorize(Policy = Policy.AdminOrUser)]
+        [HttpGet]
+        [Route("test")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Test()
+        {
+            _logger.LogInformation($"{nameof(GetAllAggregationExample)}");
+
+            //var roles = User.FindAll(ClaimTypes.Role).Select(r => r.Value).ToList();
+
+            //if (!roles.Contains(Role.Admin) && !roles.Contains(Role.User))
+            //{
+            //    return Unauthorized();
+            //}
+
+            //var testResponse = await _unitOfWork.DogFactRepository.GetDogFact(); // => OK!
+            var testResponse = await _unitOfWork.DogFactRepository.GetManyDogFacts(5);
+
+
+
+            return Ok(testResponse);
+        }
+
         [Authorize(Policy = Policy.AdminOrUser)]
         [HttpGet]
         [Route("company-cat-fact")]

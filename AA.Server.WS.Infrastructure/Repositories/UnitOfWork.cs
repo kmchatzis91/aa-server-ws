@@ -13,17 +13,20 @@ namespace AA.Server.WS.Infrastructure.Repositories
         public IDbUserRepository DbUserRepository { get; set; }
         public ICompanyRepository CompanyRepository { get; set; }
         public ICatFactRepository CatFactRepository { get; set; }
+        public IDogApiRepository DogFactRepository { get; set; }
         #endregion
 
         #region Constructor
         public UnitOfWork(
             IDbUserRepository dbUserRepository,
             ICompanyRepository companyRepository,
-            ICatFactRepository catFactRepository)
+            ICatFactRepository catFactRepository,
+            IDogApiRepository dogFactRepository)
         {
             DbUserRepository = dbUserRepository;
             CompanyRepository = companyRepository;
             CatFactRepository = catFactRepository;
+            DogFactRepository = dogFactRepository;
         }
         #endregion
     }

@@ -5,6 +5,7 @@ using AA.Server.WS.Infrastructure.Repositories;
 using AA.Server.WS.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 
@@ -134,6 +135,7 @@ namespace AA.Server.WS.Presentation
             builder.Services.AddScoped<IDbUserRepository, DbUserRepository>();
             builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
             builder.Services.AddScoped<ICatFactRepository, CatFactRepository>();
+            builder.Services.AddScoped<IDogApiRepository, DogFactRepository>();
 
             // Services
             builder.Services.AddScoped<TokenService>();
@@ -141,7 +143,14 @@ namespace AA.Server.WS.Presentation
             #endregion
 
             #region HttpClient
+            // General
             builder.Services.AddHttpClient();
+
+            // DogApi client
+            builder.Services.AddHttpClient(HttpClientName.DogApi.ToString(), client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration["HttpClientBaseUrl:DogApi"]);
+            });
             #endregion
 
             var app = builder.Build();

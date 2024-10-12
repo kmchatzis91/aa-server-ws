@@ -12,6 +12,7 @@ namespace AA.Server.WS.Application.Contracts
         IDbUserRepository DbUserRepository { get; }
         ICompanyRepository CompanyRepository { get; }
         ICatFactRepository CatFactRepository { get; }
+        IDogApiRepository DogFactRepository { get; }
         #endregion
     }
 }
