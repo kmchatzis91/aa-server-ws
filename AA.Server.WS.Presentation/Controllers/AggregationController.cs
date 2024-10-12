@@ -34,7 +34,7 @@ namespace AA.Server.WS.Presentation.Controllers
         [Authorize(Policy = Policy.AdminOrUser)]
         [HttpGet]
         [Route("company-cat-fact")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CompanyCatFact))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
