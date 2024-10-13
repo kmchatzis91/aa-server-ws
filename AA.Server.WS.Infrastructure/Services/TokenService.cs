@@ -51,6 +51,7 @@ namespace AA.Server.WS.Infrastructure.Services
                     new Claim("userId", dbUser.Id.ToString()),
                     new Claim("firstName", dbUser.FirstName),
                     new Claim("lastName", dbUser.LastName),
+                    new Claim("username", dbUser.Username),
                     new Claim(JwtRegisteredClaimNames.Email, dbUser.Email),
                     new Claim(JwtRegisteredClaimNames.Sub, dbUser.Email),
                 };

@@ -143,6 +143,7 @@ namespace AA.Server.WS.Presentation
             // Services
             builder.Services.AddScoped<TokenService>();
             builder.Services.AddScoped<PasswordService>();
+            builder.Services.AddSingleton<RequestAnalyticsService>();
             #endregion
 
             #region HttpClient
