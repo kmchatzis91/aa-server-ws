@@ -13,17 +13,29 @@ namespace AA.Server.WS.Infrastructure.Repositories
         public IDbUserRepository DbUserRepository { get; set; }
         public ICompanyRepository CompanyRepository { get; set; }
         public ICatFactRepository CatFactRepository { get; set; }
+        public IDogApiRepository DogApiRepository { get; set; }
+        public IZeldaFanApiRepository ZeldaFanApiRepository { get; set; }
+        public IJokeApiRepository JokeApiRepository { get; set; }
+        public ISpaceFlightNewsApiRepository SpaceFlightNewsApiRepository { get; set; }
         #endregion
 
         #region Constructor
         public UnitOfWork(
             IDbUserRepository dbUserRepository,
             ICompanyRepository companyRepository,
-            ICatFactRepository catFactRepository)
+            ICatFactRepository catFactRepository,
+            IDogApiRepository dogApiRepository,
+            IZeldaFanApiRepository zeldaFanApiRepository,
+            IJokeApiRepository jokeApiRepository,
+            ISpaceFlightNewsApiRepository spaceFlightNewsApiRepository)
         {
             DbUserRepository = dbUserRepository;
             CompanyRepository = companyRepository;
             CatFactRepository = catFactRepository;
+            DogApiRepository = dogApiRepository;
+            ZeldaFanApiRepository = zeldaFanApiRepository;
+            JokeApiRepository = jokeApiRepository;
+            SpaceFlightNewsApiRepository = spaceFlightNewsApiRepository;
         }
         #endregion
     }

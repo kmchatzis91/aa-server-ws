@@ -5,6 +5,7 @@ using AA.Server.WS.Infrastructure.Repositories;
 using AA.Server.WS.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 
@@ -134,14 +135,44 @@ namespace AA.Server.WS.Presentation
             builder.Services.AddScoped<IDbUserRepository, DbUserRepository>();
             builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
             builder.Services.AddScoped<ICatFactRepository, CatFactRepository>();
+            builder.Services.AddScoped<IDogApiRepository, DogApiRepository>();
+            builder.Services.AddScoped<IZeldaFanApiRepository, ZeldaFanApiRepository>();
+            builder.Services.AddScoped<IJokeApiRepository, JokeApiRepository>();
+            builder.Services.AddScoped<ISpaceFlightNewsApiRepository, SpaceFlightNewsApiRepository>();
 
             // Services
             builder.Services.AddScoped<TokenService>();
             builder.Services.AddScoped<PasswordService>();
+            builder.Services.AddSingleton<RequestAnalyticsService>();
             #endregion
 
             #region HttpClient
+            // Generic client
             builder.Services.AddHttpClient();
+
+            // DogApi client
+            builder.Services.AddHttpClient(HttpClientName.DogApi.ToString(), client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration["HttpClientBaseUrl:DogApi"]);
+            });
+
+            // ZeldaFanApi client
+            builder.Services.AddHttpClient(HttpClientName.ZeldaFanApi.ToString(), client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration["HttpClientBaseUrl:ZeldaFanApi"]);
+            });
+
+            // JokeApi client
+            builder.Services.AddHttpClient(HttpClientName.JokeApi.ToString(), client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration["HttpClientBaseUrl:JokeApi"]);
+            });
+
+            // SpaceFlightNewsApi client
+            builder.Services.AddHttpClient(HttpClientName.SpaceFlightNewsApi.ToString(), client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration["HttpClientBaseUrl:SpaceFlightNewsApi"]);
+            });
             #endregion
 
             var app = builder.Build();
