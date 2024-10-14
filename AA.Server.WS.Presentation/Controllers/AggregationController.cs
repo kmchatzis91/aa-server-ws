@@ -10,18 +10,18 @@ namespace AA.Server.WS.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CompanyController : ControllerBase
+    public class AggregationController : ControllerBase
     {
         #region Fields & Properties
         private readonly IConfiguration _configuration;
-        private readonly ILogger<CompanyController> _logger;
+        private readonly ILogger<AggregationController> _logger;
         private readonly IUnitOfWork _unitOfWork;
         #endregion
 
         #region Constructor
-        public CompanyController(
+        public AggregationController(
             IConfiguration configuration,
-            ILogger<CompanyController> logger,
+            ILogger<AggregationController> logger,
             IUnitOfWork unitOfWork)
         {
             _configuration = configuration;
@@ -33,15 +33,15 @@ namespace AA.Server.WS.Presentation.Controllers
         #region Methods
         [Authorize(Policy = Policy.AdminOrUser)]
         [HttpGet]
-        [Route("companies")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [Route("company-cat-fact")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CompanyCatFact))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAllCompanies()
+        public async Task<IActionResult> GetAllAggregationExample()
         {
-            _logger.LogInformation($"{nameof(GetAllCompanies)}");
+            _logger.LogInformation($"{nameof(GetAllAggregationExample)}");
 
             var roles = User.FindAll(ClaimTypes.Role).Select(r => r.Value).ToList();
 
@@ -51,42 +51,20 @@ namespace AA.Server.WS.Presentation.Controllers
             }
 
             var companies = await _unitOfWork.CompanyRepository.Get();
+            var catFact = await _unitOfWork.CatFactRepository.GetCatFact();
 
-            if (companies == null)
+            if (companies == null || catFact == null)
             {
                 return NotFound();
             }
 
-            return Ok(companies);
-        }
-
-        [Authorize(Policy = Policy.AdminOrUser)]
-        [HttpGet]
-        [Route("companies/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetCompanyById([FromRoute] string id)
-        {
-            _logger.LogInformation($"{nameof(GetCompanyById)} id: {id}");
-
-            var roles = User.FindAll(ClaimTypes.Role).Select(r => r.Value).ToList();
-
-            if (!roles.Contains(Role.Admin) && !roles.Contains(Role.User))
+            var companyCatFact = new CompanyCatFact()
             {
-                return Unauthorized();
-            }
+                Companies = companies,
+                CatFact = catFact
+            };
 
-            var company = await _unitOfWork.CompanyRepository.GetById(new Guid(id));
-
-            if (company == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(company);
+            return Ok(companyCatFact);
         }
         #endregion
     }

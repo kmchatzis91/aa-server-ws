@@ -50,7 +50,7 @@ namespace AA.Server.WS.Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(Get)}, Message: {ex.Message}, StackTrace: {ex.StackTrace}");
-                return new List<DbUser>();
+                return null;
             }
         }
 
@@ -69,7 +69,7 @@ namespace AA.Server.WS.Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(GetUsersView)}, Message: {ex.Message}, StackTrace: {ex.StackTrace}");
-                return new List<DbUserResponse>();
+                return null;
             }
         }
 
@@ -89,7 +89,7 @@ namespace AA.Server.WS.Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(GetByUsername)}, Message: {ex.Message}, StackTrace: {ex.StackTrace}");
-                return new DbUserResponse();
+                return null;
             }
         }
         #endregion

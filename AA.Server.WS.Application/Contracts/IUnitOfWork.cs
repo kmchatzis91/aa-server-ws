@@ -11,7 +11,7 @@ namespace AA.Server.WS.Application.Contracts
         #region Fields & Properties
         IDbUserRepository DbUserRepository { get; }
         ICompanyRepository CompanyRepository { get; }
+        ICatFactRepository CatFactRepository { get; }
         #endregion
-
     }
 }

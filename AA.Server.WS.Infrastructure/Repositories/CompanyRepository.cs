@@ -63,7 +63,7 @@ namespace AA.Server.WS.Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(Get)}, Message: {ex.Message}, StackTrace: {ex.StackTrace}");
-                return new List<Company>();
+                return null;
             }
         }
 
@@ -97,7 +97,7 @@ namespace AA.Server.WS.Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(GetById)}, Message: {ex.Message}, StackTrace: {ex.StackTrace}");
-                return new Company();
+                return null;
             }
         }
         #endregion

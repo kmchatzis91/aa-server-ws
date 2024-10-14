@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace AA.Server.WS.Domain.Entities
 {
-    public class Company
+    public class CompanyCatFact
     {
-        public Guid Id { get; set; }
-        public string? Name { get; set; }
-        public int TotalEmployees { get; set; }
+        public List<Company>? Companies { get; set; }
+        public CatFact? CatFact { get; set; }
     }
 }
