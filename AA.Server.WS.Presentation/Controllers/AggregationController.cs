@@ -147,7 +147,7 @@ namespace AA.Server.WS.Presentation.Controllers
             return Ok(result);
         }
 
-        [Authorize(Policy = Policy.AdminOrUser)]
+        [Authorize(Policy = Policy.Admin)]
         [HttpGet]
         [Route("analytics/data")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RequestAnalyticsResponse))]
@@ -178,7 +178,7 @@ namespace AA.Server.WS.Presentation.Controllers
             return Ok(result);
         }
 
-        [Authorize(Policy = Policy.AdminOrUser)]
+        [Authorize(Policy = Policy.Admin)]
         [HttpGet]
         [Route("analytics/filtered/data")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RequestAnalyticsResponse))]
