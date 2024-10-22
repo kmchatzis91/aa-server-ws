@@ -71,17 +71,19 @@ namespace AA.Server.WS.Presentation.Controllers
                 return Unauthorized();
             }
 
-            var dogApiResponse = await _unitOfWork.DogApiRepository.GetDogFact();
-            var zeldaFanApi = await _unitOfWork.ZeldaFanApiRepository.GetZeldaGameInfo();
-            var jokeApiResponse = await _unitOfWork.JokeApiRepository.GetJoke();
-            var spaceFlightNewsApiResponse = await _unitOfWork.SpaceFlightNewsApiRepository.GetSpaceNew();
+            var dogApiResponse = _unitOfWork.DogApiRepository.GetDogFact();
+            var zeldaFanApi = _unitOfWork.ZeldaFanApiRepository.GetZeldaGameInfo();
+            var jokeApiResponse = _unitOfWork.JokeApiRepository.GetJoke();
+            var spaceFlightNewsApiResponse = _unitOfWork.SpaceFlightNewsApiRepository.GetSpaceNew();
+
+            await Task.WhenAll(dogApiResponse, zeldaFanApi, jokeApiResponse, spaceFlightNewsApiResponse);
 
             var result = new AggregationResponse()
             {
-                DogApi = dogApiResponse,
-                ZeldaFanApi = zeldaFanApi,
-                JokeApi = jokeApiResponse,
-                SpaceFlightNewsApi = spaceFlightNewsApiResponse
+                DogApi = await dogApiResponse,
+                ZeldaFanApi = await zeldaFanApi,
+                JokeApi = await jokeApiResponse,
+                SpaceFlightNewsApi = await spaceFlightNewsApiResponse
             };
 
             stopwatch.Stop();
@@ -125,17 +127,19 @@ namespace AA.Server.WS.Presentation.Controllers
                 return Unauthorized();
             }
 
-            var dogApiResponse = await _unitOfWork.DogApiRepository.GetManyDogFacts(request.DogFactLimit);
-            var zeldaFanApi = await _unitOfWork.ZeldaFanApiRepository.GetManyZeldaGameInfo(request.ZeldaGameLimit);
-            var jokeApiResponse = await _unitOfWork.JokeApiRepository.GetJokeByCategoryName(request.JokeCategoryName);
-            var spaceFlightNewsApiResponse = await _unitOfWork.SpaceFlightNewsApiRepository.GetManySpaceNews(request.SpaceNewLimit);
+            var dogApiResponse = _unitOfWork.DogApiRepository.GetManyDogFacts(request.DogFactLimit);
+            var zeldaFanApi = _unitOfWork.ZeldaFanApiRepository.GetManyZeldaGameInfo(request.ZeldaGameLimit);
+            var jokeApiResponse = _unitOfWork.JokeApiRepository.GetJokeByCategoryName(request.JokeCategoryName);
+            var spaceFlightNewsApiResponse = _unitOfWork.SpaceFlightNewsApiRepository.GetManySpaceNews(request.SpaceNewLimit);
+
+            await Task.WhenAll(dogApiResponse, zeldaFanApi, jokeApiResponse, spaceFlightNewsApiResponse);
 
             var result = new AggregationResponse()
             {
-                DogApi = dogApiResponse,
-                ZeldaFanApi = zeldaFanApi,
-                JokeApi = jokeApiResponse,
-                SpaceFlightNewsApi = spaceFlightNewsApiResponse
+                DogApi = await dogApiResponse,
+                ZeldaFanApi = await zeldaFanApi,
+                JokeApi = await jokeApiResponse,
+                SpaceFlightNewsApi = await spaceFlightNewsApiResponse
             };
 
             stopwatch.Stop();
